@@ -1,0 +1,14 @@
+import { Box, Flex, Text, Avatar } from "@chakra-ui/react";
+
+export function Profile() {
+    return (
+        <Flex align='center'>
+            <Box mr='4' textAlign='right'>
+                <Text>Sofia Rodrigues Ferreira</Text>
+                <Text color='gray.300' fontSize='small'>sofiarodrigues45@gmail.com</Text>
+            </Box>
+        
+            <Avatar size='md' name='Sofia Rodrigues Ferreira' src='https://github.com/sofiarodfer.png' />
+        </Flex>
+    )
+}

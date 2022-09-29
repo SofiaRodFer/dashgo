@@ -2,7 +2,8 @@ import { Box, Button, Checkbox, Flex, Heading, Icon, Table, Tbody, Td, Th, Thead
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 import { RiAddLine, RiPencilLine } from 'react-icons/ri'
-import { Pagination } from "../../components/Pagination";
+import { Pagination } from "../../components/Pagination/index.tsx";
+import { UserTableItem } from "../../components/UserTableItem";
 
 export default function UserList() {
     return (
@@ -37,83 +38,23 @@ export default function UserList() {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            <Tr>
-                                <Td px='6'>
-                                    <Checkbox colorScheme='pink' />
-                                </Td>
-                                <Td>
-                                    <Box>
-                                        <Text fontWeight='bold'>Sofia Rodrigues Ferreira</Text>
-                                        <Text fontSize='sm' color='gray.300'>sofiarodrigues45@gmail.com</Text>
-                                    </Box>
-                                </Td>
-                                <Td>
-                                    28 de Setembro, 2022
-                                </Td>
-                                <Td>
-                                <Button
-                                  as='a'
-                                  size='sm'
-                                  fontSize='sm'
-                                  colorScheme='purple'
-                                  leftIcon={<Icon as={RiPencilLine} fontSize='16' />}
-                                >
-                                    editar
-                                </Button>
-                                </Td>
-                            </Tr>
+                            <UserTableItem user={{
+                                name: 'Sofia Rodrigues Ferreira',
+                                email: 'sofiarodrigues45@gmail.com',
+                                createdAt: '28 de Setembro, 2022'
+                            }} />
 
-                            <Tr>
-                                <Td px='6'>
-                                    <Checkbox colorScheme='pink' />
-                                </Td>
-                                <Td>
-                                    <Box>
-                                        <Text fontWeight='bold'>Sofia Rodrigues Ferreira</Text>
-                                        <Text fontSize='sm' color='gray.300'>sofiarodrigues45@gmail.com</Text>
-                                    </Box>
-                                </Td>
-                                <Td>
-                                    28 de Setembro, 2022
-                                </Td>
-                                <Td>
-                                <Button
-                                  as='a'
-                                  size='sm'
-                                  fontSize='sm'
-                                  colorScheme='purple'
-                                  leftIcon={<Icon as={RiPencilLine} fontSize='16' />}
-                                >
-                                    editar
-                                </Button>
-                                </Td>
-                            </Tr>
+                            <UserTableItem user={{
+                                name: 'Sofia Rodrigues Ferreira',
+                                email: 'sofiarodrigues45@gmail.com',
+                                createdAt: '28 de Setembro, 2022'
+                            }} />
 
-                            <Tr>
-                                <Td px='6'>
-                                    <Checkbox colorScheme='pink' />
-                                </Td>
-                                <Td>
-                                    <Box>
-                                        <Text fontWeight='bold'>Sofia Rodrigues Ferreira</Text>
-                                        <Text fontSize='sm' color='gray.300'>sofiarodrigues45@gmail.com</Text>
-                                    </Box>
-                                </Td>
-                                <Td>
-                                    28 de Setembro, 2022
-                                </Td>
-                                <Td>
-                                <Button
-                                  as='a'
-                                  size='sm'
-                                  fontSize='sm'
-                                  colorScheme='purple'
-                                  leftIcon={<Icon as={RiPencilLine} fontSize='16' />}
-                                >
-                                    editar
-                                </Button>
-                                </Td>
-                            </Tr>
+                            <UserTableItem user={{
+                                name: 'Sofia Rodrigues Ferreira',
+                                email: 'sofiarodrigues45@gmail.com',
+                                createdAt: '28 de Setembro, 2022'
+                            }} />
                         </Tbody>
                     </Table>
 
