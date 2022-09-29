@@ -1,4 +1,4 @@
-import { Box, Checkbox, Td, Tr, Text, Button, Icon } from "@chakra-ui/react";
+import { Box, Checkbox, Td, Tr, Text, Button, Icon, useBreakpointValue } from "@chakra-ui/react";
 import { RiPencilLine } from "react-icons/ri";
 
 interface UserTableItemProps {
@@ -10,9 +10,14 @@ interface UserTableItemProps {
 }
 
 export function UserTableItem({ user }: UserTableItemProps) {
+    const isWideVersion = useBreakpointValue({
+        base: false,
+        lg: true
+    })
+    
     return (
         <Tr>
-            <Td px='6'>
+            <Td px={['4', '4', '6']}>
                 <Checkbox colorScheme='pink' />
             </Td>
             <Td>
@@ -21,11 +26,9 @@ export function UserTableItem({ user }: UserTableItemProps) {
                     <Text fontSize='sm' color='gray.300'>{user.email}</Text>
                 </Box>
             </Td>
+            { isWideVersion && <Td>{user.createdAt}</Td> }
             <Td>
-                {user.createdAt}
-            </Td>
-            <Td>
-            <Button
+            { isWideVersion && <Button
               as='a'
               size='sm'
               fontSize='sm'
@@ -33,7 +36,7 @@ export function UserTableItem({ user }: UserTableItemProps) {
               leftIcon={<Icon as={RiPencilLine} fontSize='16' />}
             >
                 editar
-            </Button>
+            </Button> }
             </Td>
         </Tr>
     )
