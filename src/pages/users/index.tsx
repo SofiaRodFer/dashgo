@@ -1,12 +1,19 @@
-import { Box, Button, Checkbox, Flex, Heading, Icon, Table, Tbody, Th, Thead, Tr, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Button, Checkbox, Flex, Heading, Icon, Spinner, Table, Tbody, Text, Th, Thead, Tr, useBreakpointValue } from "@chakra-ui/react";
+import Link from "next/link";
+
 import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 import { RiAddLine } from 'react-icons/ri'
-import { Pagination } from "../../components/Pagination/index.tsx";
+import { Pagination } from "../../components/Pagination";
 import { UserTableItem } from "../../components/UserTableItem";
-import Link from "next/link";
+import { useUsers } from "../../services/hooks/useUsers";
+import { useState } from "react";
+
 
 export default function UserList() {
+    const [page, setPage] = useState(1)
+    const { data, isLoading, isFetching, error } = useUsers(page)
+
     const isWideVersion = useBreakpointValue({
         base: false,
         lg: true
@@ -20,7 +27,10 @@ export default function UserList() {
 
                 <Box flex='1' borderRadius={8} bg='gray.800' p='8'>
                     <Flex mb='8' justify='space-between' align='center'>
-                        <Heading size='lg' fontWeight='normal'>usuários</Heading>
+                        <Heading size='lg' fontWeight='normal'>
+                            usuários
+                            { !isLoading && isFetching && <Spinner size='sm' color="gray.500" ml='4' /> }
+                        </Heading>
                         <Link href='/users/create' passHref>
                             <Button
                               as='a'
@@ -34,39 +44,48 @@ export default function UserList() {
                         </Link>
                     </Flex>
 
-                    <Table colorScheme='whiteAlpha'>
-                        <Thead>
-                            <Tr>
-                                <Th px={['4', '4', '6']} color='gray.300' width='8'>
-                                    <Checkbox colorScheme='pink' />
-                                </Th>
-                                <Th>usuário</Th>
-                                { isWideVersion && <Th>data de cadastro</Th> }
-                                <Th width='8'></Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            <UserTableItem user={{
-                                name: 'Sofia Rodrigues Ferreira',
-                                email: 'sofiarodrigues45@gmail.com',
-                                createdAt: '28 de Setembro, 2022'
-                            }} />
+                    { isLoading ? (
+                        <Flex justify='center'>
+                            <Spinner />
+                        </Flex>
+                    ) : error ? (
+                        <Flex justify='center'>
+                            <Text>dalha ao obter dados dos usuários.</Text>
+                        </Flex>
+                    ) : (
+                        <>
+                            <Table colorScheme='whiteAlpha'>
+                            <Thead>
+                                <Tr>
+                                    <Th px={['4', '4', '6']} color='gray.300' width='8'>
+                                        <Checkbox colorScheme='pink' />
+                                    </Th>
+                                    <Th>usuário</Th>
+                                    { isWideVersion && <Th>data de cadastro</Th> }
+                                    <Th width='8'></Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                { data.users.map(user => {
+                                    return (
+                                        <UserTableItem key={user.id} user={{
+                                            id: user.id,
+                                            name: user.name,
+                                            email: user.email,
+                                            createdAt: user.createdAt
+                                        }} />
+                                    )
+                                }) }
+                            </Tbody>
+                        </Table>
 
-                            <UserTableItem user={{
-                                name: 'Sofia Rodrigues Ferreira',
-                                email: 'sofiarodrigues45@gmail.com',
-                                createdAt: '28 de Setembro, 2022'
-                            }} />
-
-                            <UserTableItem user={{
-                                name: 'Sofia Rodrigues Ferreira',
-                                email: 'sofiarodrigues45@gmail.com',
-                                createdAt: '28 de Setembro, 2022'
-                            }} />
-                        </Tbody>
-                    </Table>
-
-                    <Pagination />
+                        <Pagination
+                            totalCountOfRegisters={data.totalCount}
+                            currentPage={page}
+                            onPageChange={setPage}
+                        />
+                    </>
+                    ) }
                 </Box>
             </Flex>
         </Box>

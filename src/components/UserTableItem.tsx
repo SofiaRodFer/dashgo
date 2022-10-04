@@ -1,8 +1,12 @@
-import { Box, Checkbox, Td, Tr, Text, Button, Icon, useBreakpointValue } from "@chakra-ui/react";
+import { Box, Checkbox, Td, Tr, Text, Button, Icon, useBreakpointValue, Link } from "@chakra-ui/react";
+
 import { RiPencilLine } from "react-icons/ri";
+import { api } from "../services/api";
+import { queryClient } from "../services/queryClient";
 
 interface UserTableItemProps {
     user: {
+        id: string;
         name: string;
         email: string;
         createdAt: string;
@@ -14,6 +18,16 @@ export function UserTableItem({ user }: UserTableItemProps) {
         base: false,
         lg: true
     })
+
+    async function handlePrefetchUser(userId: string) {
+        await queryClient.prefetchQuery(['users', userId], async () => {
+            const response = await api.get(`users/${userId}`)
+
+            return response.data
+        }, {
+            staleTime: 1000 * 60 * 10 // 10 minutos
+        })
+    }
     
     return (
         <Tr>
@@ -22,7 +36,9 @@ export function UserTableItem({ user }: UserTableItemProps) {
             </Td>
             <Td>
                 <Box>
-                    <Text fontWeight='bold'>{user.name}</Text>
+                    <Link color="purple.400" onMouseEnter={() => handlePrefetchUser(user.id)}>
+                        <Text fontWeight='bold'>{user.name}</Text>
+                    </Link>
                     <Text fontSize='sm' color='gray.300'>{user.email}</Text>
                 </Box>
             </Td>
